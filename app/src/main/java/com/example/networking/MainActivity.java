@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -17,6 +18,7 @@ import java.util.Scanner;
 @SuppressWarnings("FieldCanBeLocal")
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
 
+    RecyclerView recyclerView;
     private final String TAG = "===";
 
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=brom";
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         new JsonFile(this, this).execute(JSON_FILE); //reads from file
         new JsonTask (this).execute(JSON_URL); //reads from URL
+
+        recyclerView = findViewById(R.id.recycle);
     }
 
     @Override
