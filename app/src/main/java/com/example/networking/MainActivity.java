@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=brom";
     private final String JSON_FILE = "mountains.json";
 
+    public List<Mountain> listOfMountains;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         new JsonTask (this).execute(JSON_URL); //reads from URL
 
         recyclerView = findViewById(R.id.recycle);
+        recyclerView.setAdapter(new MyAdapter(listOfMountains));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -41,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         Gson gson = new Gson();
         Type type = new TypeToken<List<Mountain>>() {}.getType();
-        List<Mountain> listOfMountains = gson.fromJson(json, type);
+        listOfMountains = gson.fromJson(json, type);
         if(listOfMountains != null) {
             Log.d(TAG, "Number of elements: " + listOfMountains.size());
             Log.d(TAG, "Element 0: " + listOfMountains.get(0).toString());

@@ -8,7 +8,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+
+    private List<Mountain> mountainList;
+    public MyAdapter(List<Mountain> mountainList) {
+        this.mountainList = mountainList;
+    }
 
     @NonNull
     @Override
@@ -19,11 +27,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.name.setText();
+        holder.name.setText(mountainList.get(position).getName());
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mountainList.size();
     }
 }
