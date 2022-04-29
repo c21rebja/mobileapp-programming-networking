@@ -2,6 +2,8 @@ package com.example.networking;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,11 +15,14 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
+
+    private Button dataButton;
 
     RecyclerView recyclerView;
     private final String TAG = "===";
@@ -26,17 +31,31 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     private final String JSON_FILE = "mountains.json";
 
     public List<Mountain> listOfMountains;
+    private MyAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new JsonFile(this, this).execute(JSON_FILE); //reads from file
-        new JsonTask (this).execute(JSON_URL); //reads from URL
+        //new JsonFile(this, this).execute(JSON_FILE); //reads from file
+        new JsonTask(this).execute(JSON_URL);
+
+        dataButton = findViewById(R.id.add_data_button);
+        dataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //new JsonTask(this).execute(JSON_URL);
+            }
+        });
+
+
+
+        listOfMountains = new ArrayList<Mountain>();
 
         recyclerView = findViewById(R.id.recycle);
-        recyclerView.setAdapter(new MyAdapter(listOfMountains));
+        adapter = new MyAdapter(listOfMountains);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -46,15 +65,15 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         Gson gson = new Gson();
         Type type = new TypeToken<List<Mountain>>() {}.getType();
-        listOfMountains = gson.fromJson(json, type);
-        if(listOfMountains != null) {
-            Log.d(TAG, "Number of elements: " + listOfMountains.size());
-            Log.d(TAG, "Element 0: " + listOfMountains.get(0).toString());
+        List<Mountain> tempList = gson.fromJson(json, type);
+        if(tempList != null) {
+            Log.d(TAG, "Number of elements: " + tempList.size());
+            Log.d(TAG, "Element 0: " + tempList.get(0).toString());
+            listOfMountains.addAll(tempList);
+            adapter.notifyDataSetChanged();
         }
         else {
             Log.d(TAG, "There were no elements to show.");
         }
-
     }
-
 }
