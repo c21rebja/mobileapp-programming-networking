@@ -23,6 +23,7 @@ import java.util.Scanner;
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
 
     private Button dataButton;
+    private Button clearButton;
 
     RecyclerView recyclerView;
     private final String TAG = "===";
@@ -39,17 +40,24 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         setContentView(R.layout.activity_main);
 
         //new JsonFile(this, this).execute(JSON_FILE); //reads from file
-        new JsonTask(this).execute(JSON_URL);
+        //new JsonTask(this).execute(JSON_URL);
 
         dataButton = findViewById(R.id.add_data_button);
         dataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //new JsonTask(this).execute(JSON_URL);
+                new JsonTask(MainActivity.this).execute(JSON_URL);
             }
         });
 
-
+        clearButton = findViewById(R.id.clear_data_button);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listOfMountains.clear();
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         listOfMountains = new ArrayList<Mountain>();
 
