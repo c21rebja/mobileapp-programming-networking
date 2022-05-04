@@ -2,7 +2,7 @@
 # Rapport
 
 I denna uppgift skulle en RecyclerView skapas och sen fyllas med data från en URL. 
-Det var bra en activity, vars layout höll en textview (heading), en recyclerview (för innehållet i URLen), en knapp för att lägga till data i viewen och en knapp för att ta bort den igen. 
+Det var bara en activity, vars layout höll en textview (heading), en recyclerview (för innehållet i URLen), en knapp för att lägga till data i viewen och en knapp för att ta bort den igen. 
 Förutom den layouten så fanns det även en till xml-fil som höll designen för varje item i recyclerviewen. 
 
 För att skapa recyclerviewen skapades först själva layoutobjektet i activity_main.xml, som sen kopplades samman med en variabel i MainActivity.
@@ -21,6 +21,7 @@ Figur 1     Lista av berg i MyAdapter.java
 
 En av funktionerna i adaptern behöver en ViewHolder, så då fick den skapas också.
 Det behövde finnas lika många variabler i ViewHoldern som antalet variabler som skulle skrivas ut i RecyclerView Itemet.
+I detta fall, name, location och size.
 
 ```
 public MyViewHolder(@NonNull View itemView) {
@@ -34,7 +35,7 @@ Figur 2     Koden i MyViewHolder.java
 
 Koden för att lägga till data i listan som skapades i MainActivity kördes i en funktion som kallades med en knapp.
 I den funktionen skapades en temporär lista av berg som fylldes med datan från URLen.
-Se fördes datan från den temporära listan över till den riktiga listan, som i sin tur uppdaterades så att även informationen i recyclerviewen uppdaterades. 
+Sen fördes datan från den temporära listan över till den riktiga listan, som i sin tur uppdaterades så att även informationen i recyclerviewen uppdaterades. 
 
 ```
 public void onPostExecute(String json) {
